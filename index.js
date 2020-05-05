@@ -33,6 +33,11 @@ const { toUtf8Bytes32, formatEther, parseEther } = snxjs.utils;
 		}
 	});
 
+	// All synths
+	const synths = snxjs.contractSettings.synths.filter(({ inverted }) => !inverted).map(({ name }) => name);
+
+	console.log('All synths:', synths);
+
 	// try exchange 1 sUSD for sETH
 	try {
 		const response = await snxjs.Synthetix.exchange(toUtf8Bytes32('sUSD'), parseEther('1'), toUtf8Bytes32('sETH'));
