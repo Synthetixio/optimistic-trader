@@ -10,11 +10,6 @@ const provider = new providers.JsonRpcProvider('https://synth.optimism.io');
 
 const networkId = 108;
 
-// Use the below to get your private key from a mnenomic:
-// Hit the "Export Account" button on the wallet dropdown in https://l2.synthetix.exchange/, then copy
-// the mnenomic from the URL, replace dashes with spaces, and add it in the string below:
-// console.log(ethers.Wallet.fromMnemonic(').privateKey);
-
 const signer = new SynthetixJs.signers.PrivateKey(provider, networkId, process.env.PRIVATE_KEY);
 
 const snxjs = new SynthetixJs({ signer, networkId, provider });
