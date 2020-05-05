@@ -34,7 +34,7 @@ const { toUtf8Bytes32, formatEther, parseEther } = snxjs.utils;
 	});
 
 	// All synths
-	const synths = snxjs.contractSettings.synths.filter(({ inverted }) => !inverted).map(({ name }) => name);
+	const synths = snxjs.contractSettings.synths.map(({ name }) => name);
 
 	console.log('All synths:', synths);
 
