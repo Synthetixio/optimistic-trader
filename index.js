@@ -2,7 +2,10 @@
 
 require('dotenv-safe').config();
 
-const { providers } = require('ethers');
+const {
+	providers,
+	utils: { defaultAbiCoder, parseBytes32String },
+} = require('ethers');
 
 const { SynthetixJs } = require('synthetix-js');
 
@@ -17,12 +20,21 @@ const snxjs = new SynthetixJs({ signer, networkId, provider });
 const { toUtf8Bytes32, formatEther, parseEther } = snxjs.utils;
 
 (async () => {
-	// Get the price of ETH
-	const rateForETH = await snxjs.ExchangeRates.rateForCurrency(toUtf8Bytes32('sETH'));
-	console.log(formatEther(rateForETH));
+	// Subscribe to rate updates
+	snxjs.ExchangeRates.contract.provider.on(snxjs.ExchangeRates.contract.filters.RatesUpdated(), res => {
+		const types = snxjs.ExchangeRates.contract.interface.abi
+			.find(({ name }) => name === 'RatesUpdated')
+			.inputs.map(({ type }) => type);
 
+		const [keys, rates] = defaultAbiCoder.decode(types, res.data);
+
+		for (const [i, key] of Object.entries(keys)) {
+			console.log(parseBytes32String(key), formatEther(rates[i]));
+		}
+	});
+
+	// try exchange 1 sUSD for sETH
 	try {
-		// try exchange 1 sUSD for sETH
 		const response = await snxjs.Synthetix.exchange(toUtf8Bytes32('sUSD'), parseEther('1'), toUtf8Bytes32('sETH'));
 
 		console.log('Hash of', response.hash);
