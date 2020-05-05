@@ -3,7 +3,11 @@
 	"private": true,
 	"description": "",
 	"main": "index.js",
-	"dependencies": {},
+	"dependencies": {
+		"dotenv-safe": "8.2.0",
+		"ethers": "4.0.47",
+		"synthetix-js": "github:Synthetixio/synthetix-js#feat/l2"
+	},
 	"devDependencies": {
 		"eslint": "6.8.0",
 		"eslint-config-prettier": "6.10.1",
@@ -14,7 +18,8 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"lint": "eslint .",
-		"format": "prettier --write '**/*.js'"
+		"format": "prettier --write '**/*.js'",
+		"start": "node ."
 	},
 	"author": "Synthetix",
 	"license": "MIT"
